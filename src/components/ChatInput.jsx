@@ -1,19 +1,22 @@
-import { Input, Button } from "@material-tailwind/react";
-import { useState } from "react";
+import { Input, Button, IconButton } from "@material-tailwind/react";
 
- 
-const InputWithButton = ({chats, setChats}) => {
-  const [message, setMessage] = useState("");
+
+
+// const InputWithButton = ({chats, setChats, setMessage}) => {
+const InputWithButton = ({ message, setMessage, onSubmit, loading }) => {
+  // const [message, setMessage] = useState("");
   const onChange = ({ target }) => setMessage(target.value);
-  const onSubmit= () => {
-    const temp = {
-      message: message,
-      products: []
-    }
-    setChats([...chats, temp])
-  }
+  // const onSubmit = async () => {
+  //   const temp = {
+  //     message: message,
+  //     products: []
+  //   }
+  //   setChats([...chats, temp])
+  //   const response = await ask(message);
+  //   console.log(response)
+  // }
   return (
-    <div className="relative flex w-full">
+    <form onSubmit={onSubmit} className="relative flex w-full">
       <Input
         type="text"
         label="message"
@@ -24,16 +27,22 @@ const InputWithButton = ({chats, setChats}) => {
           className: "min-w-0",
         }}
       />
-      <Button
-        size="sm"
-        color={message ? "gray" : "blue-gray"}
-        disabled={!message}
-        className="!absolute right-1 top-1 rounded"
-        onClick={onSubmit}
-      >
-        Send
-      </Button>
-    </div>
+      <div className="!absolute right-1 top-1 flex gap-[0.3rem]">
+        <Button size="sm" className="rounded">
+          <img src="mic.png" alt="mic" className="h-3"/>
+        </Button>
+        <Button
+          size="sm"
+          color={message ? "gray" : "blue-gray"}
+          disabled={!message}
+          className="rounded"
+          type="submit"
+          loading={loading}
+        >
+          Send
+        </Button>
+      </div>
+    </form>
   );
 }
 export default InputWithButton

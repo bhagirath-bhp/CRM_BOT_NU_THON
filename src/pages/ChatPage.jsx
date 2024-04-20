@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ChatInput from "../components/ChatInput";
 import ChatItem from "../components/ChatItem";
+import Loader from "../components/Loader";
+import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
+import 'regenerator-runtime'
+import { ask } from "../api/chat";
+
 
 const ChatPage = () => {
+    const [message, setMessage] = useState("");
+    const [loading, setLoading] = useState(false);
     const [chats, setChats] = useState([
         {
             message: "Hello",
-            products: []
+            products: [],
+            type: "sent"
         },
         {
             message: "Hi there",
@@ -21,19 +29,69 @@ const ChatPage = () => {
                     description: "Description of Product 2",
                     imageURL: "https://example.com/product2.jpg"
                 }
-            ]
+            ],
+            type: "recieved"
         }
     ]);
+
+    useEffect(()=>{
+        setMessage(transcript);
+    }, transcript)
+    const {
+        transcript,
+        listening,
+        resetTranscript,
+        browserSupportsSpeechRecognition,
+      } = useSpeechRecognition();
+      const micControl = () => {
+        if (listening === true) {
+          SpeechRecognition.stopListening();
+        } else {
+          SpeechRecognition.startListening();
+        }
+      };
+
+    const onSubmit = async (event) => {
+        event.preventDefault();
+        setMessage("");
+        let temp = {
+            message: message,
+            products: [],
+            type: "sent"
+        };
+        setChats([...chats, temp]);
+        setLoading(true);
+        const response = await ask(message);
+        setTimeout(() => {
+            if (response.success) {
+                console.log(response)
+                setLoading(false);
+                temp = {
+                    message: response.data.response,
+                    products: [],
+                    type: "received"
+                };
+            } else {
+                temp = {
+                    message: "Error occurred",
+                    products: [],
+                    type: "received"
+                };
+            }
+            setChats(prevChats => [...prevChats, temp]);
+        }, 100);
+    };
 
     return (
         <div>
             <div className="chat-area w-full">
                 {chats.map((chat, index) => (
-                    <ChatItem key={index} chat={chat} align={index % 2 === 0 ? "right" : "left"} products={chat.products} />
+                    <ChatItem key={index} chat={chat} type={chat.type} products={chat.products} />
                 ))}
             </div>
-            <div className="chat-input py-[1rem]">
-                <ChatInput chats={chats} setChats={setChats} />
+            <div className="chat-input py-[1rem] relative">
+                {loading && <div className="absolute top-[-2rem] left-[1rem]"><Loader /></div>}
+                <ChatInput message={message} setMessage={setMessage} onSubmit={onSubmit} loading={loading} />
             </div>
         </div>
     );

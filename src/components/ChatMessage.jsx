@@ -1,10 +1,12 @@
-import React from 'react'
+import Loader from "./Loader"
 
-const ChatMessage = () => {
-  return (
+const ChatMessage = ({message}) => {
+  return (message==="loading101#")?(
+    <Loader/>
+  ):(
     <div className='p-[1rem] shadow-md rounded-md rounded-ss-none max-w-[50%]'>
         <p>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Earum explicabo id dolores soluta tempora quibusdam ullam blanditiis in itaque totam.
+            {message || " placeholder . . . "}
         </p>
     </div>
   )
