@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import ChatInput from "../components/ChatInput";
 import ChatItem from "../components/ChatItem";
 import Loader from "../components/Loader";
-import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
-import 'regenerator-runtime'
+// import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
+// import 'regenerator-runtime'
 import { ask } from "../api/chat";
 
 
@@ -34,22 +34,23 @@ const ChatPage = () => {
         }
     ]);
 
-    useEffect(()=>{
-        setMessage(transcript);
-    }, transcript)
-    const {
-        transcript,
-        listening,
-        resetTranscript,
-        browserSupportsSpeechRecognition,
-      } = useSpeechRecognition();
-      const micControl = () => {
-        if (listening === true) {
-          SpeechRecognition.stopListening();
-        } else {
-          SpeechRecognition.startListening();
-        }
-      };
+    // const { transcript, listening, resetTranscript } = useSpeechRecognition();
+
+    // useEffect(() => {
+    //     if (transcript !== '') {
+    //         console.log(transcript);
+    //         setMessage(transcript);
+    //         resetTranscript(); // Reset transcript after processing
+    //     }
+    // }, [transcript, resetTranscript]);
+
+    // const micControl = () => {
+    //     if (listening) {
+    //         SpeechRecognition.stopListening();
+    //     } else {
+    //         SpeechRecognition.startListening();
+    //     }
+    // };
 
     const onSubmit = async (event) => {
         event.preventDefault();
