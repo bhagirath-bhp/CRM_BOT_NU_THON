@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ChatInput from "../components/ChatInput";
 import ChatItem from "../components/ChatItem";
 import Loader from "../components/Loader";
@@ -14,6 +14,7 @@ import Navbar from "../components/Navbar";
 const ChatPage = () => {
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
+    const bottomRef = useRef(null);
     const navigate = useNavigate();
     const user = useUser()
     const [chats, setChats] = useState([
@@ -41,13 +42,11 @@ const ChatPage = () => {
     ]);
     
     useEffect(()=>{
-        if(user.isLoaded && user.isSignedIn){
-            return
+        if(user.isLoaded && !user.isSignedIn){
+            navigate("/");
         }
         else{
-            setTimeout(()=>{
-                navigate("/signin")
-            }, 2000)
+            return;
         }
     }, [user.isLoaded])
     const {
@@ -101,16 +100,19 @@ const ChatPage = () => {
     };
 
     return (
-        <div>
+        <div className="px-[1rem]">
             <Navbar/>
-            <div className="chat-area w-full">
-                {chats.map((chat, index) => (
-                    <ChatItem key={index} chat={chat} type={chat.type} products={chat.products} />
-                ))}
-            </div>
-            <div className="chat-input py-[1rem] relative">
-                {loading && <div className="absolute top-[-2rem] left-[1rem]"><Loader /></div>}
-                <ChatInput message={message} setMessage={setMessage} onSubmit={onSubmit} loading={loading} micControl={micControl}/>
+            <div className="flex flex-col justify-between overflow-y-scroll noscrollbar h-[90vh] ">
+                <div className="chat-area w-full">
+                    {chats.map((chat, index) => (
+                        <ChatItem key={index} chat={chat} type={chat.type} products={chat.products} />
+                    ))}
+                    <div className="bottom-ref" ref={bottomRef}></div>
+                </div>
+                <div className="chat-input py-[1rem] relative">
+                    {loading && <div className="absolute top-[-2rem] left-[2rem]"><Loader /></div>}
+                    <ChatInput message={message} setMessage={setMessage} onSubmit={onSubmit} loading={loading} micControl={micControl}/>
+                </div>
             </div>
         </div>
     );
