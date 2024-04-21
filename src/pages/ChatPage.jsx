@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import ChatInput from "../components/ChatInput";
 import ChatItem from "../components/ChatItem";
 import Loader from "../components/Loader";
-// import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
-// import 'regenerator-runtime'
+import 'regenerator-runtime'
+import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import { ask } from "../api/chat";
-import { speechRecognition } from "../utils/utils";
 
 const ChatPage = () => {
     const [message, setMessage] = useState("");
@@ -34,23 +33,23 @@ const ChatPage = () => {
         }
     ]);
 
-    // const { transcript, listening, resetTranscript } = useSpeechRecognition();
-
-    // useEffect(() => {
-    //     if (transcript !== '') {
-    //         console.log(transcript);
-    //         setMessage(transcript);
-    //         resetTranscript(); // Reset transcript after processing
-    //     }
-    // }, [transcript, resetTranscript]);
-
-    // const micControl = () => {
-    //     if (listening) {
-    //         SpeechRecognition.stopListening();
-    //     } else {
-    //         SpeechRecognition.startListening();
-    //     }
-    // };
+    const {
+        transcript,
+        listening,
+        resetTranscript,
+        browserSupportsSpeechRecognition,
+      } = useSpeechRecognition();
+      const micControl = () => {
+        if (listening === true) {
+    
+          SpeechRecognition.stopListening();
+        } else {
+          SpeechRecognition.startListening();
+        }
+      };
+      useEffect(() => {
+        setMessage(transcript);
+      }, [transcript]);
 
     const onSubmit = async (event) => {
         event.preventDefault();
@@ -92,8 +91,7 @@ const ChatPage = () => {
             </div>
             <div className="chat-input py-[1rem] relative">
                 {loading && <div className="absolute top-[-2rem] left-[1rem]"><Loader /></div>}
-                <ChatInput message={message} setMessage={setMessage} onSubmit={onSubmit} loading={loading} speechRecognition={speechRecognition}/>
-                {/* <ChatInput message={message} setMessage={setMessage} onSubmit={onSubmit} loading={loading} micControl={micControl}/> */}
+                <ChatInput message={message} setMessage={setMessage} onSubmit={onSubmit} loading={loading} micControl={micControl}/>
             </div>
         </div>
     );

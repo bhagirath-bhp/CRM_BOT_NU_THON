@@ -1,21 +1,7 @@
 import { Input, Button, IconButton } from "@material-tailwind/react";
 
-
-
-// const InputWithButton = ({chats, setChats, setMessage}) => {
-const InputWithButton = ({ message, setMessage, onSubmit, loading, speechRecognition }) => {
-// const InputWithButton = ({ message, setMessage, onSubmit, loading, micControl }) => {
-  // const [message, setMessage] = useState("");
+const InputWithButton = ({ message, setMessage, onSubmit, loading, micControl }) => {
   const onChange = ({ target }) => setMessage(target.value);
-  // const onSubmit = async () => {
-  //   const temp = {
-  //     message: message,
-  //     products: []
-  //   }
-  //   setChats([...chats, temp])
-  //   const response = await ask(message);
-  //   console.log(response)
-  // }
   return (
     <form onSubmit={onSubmit} className="relative flex w-full">
       <Input
@@ -29,8 +15,7 @@ const InputWithButton = ({ message, setMessage, onSubmit, loading, speechRecogni
         }}
       />
       <div className="!absolute right-1 top-1 flex gap-[0.3rem]">
-        {/* <Button size="sm" className="rounded" onClick={micControl}> */}
-        <Button size="sm" className="rounded" onClick={speechRecognition}>
+        <Button size="sm" className="rounded" onClick={micControl}>
           <img src="mic.png" alt="mic" className="h-3"/>
         </Button>
         <Button
