@@ -6,12 +6,16 @@ import {
     Typography,
     Button,
 } from "@material-tailwind/react";
+import { clampString } from "../../utils";
+
 
 
 const ProductCard = ({productData}) => {
     return (
-        <Card className="min-w-96 flex flex-col justify-center items-center">
-            <CardHeader shadow={false} floated={false} className="h-[10rem]">
+        // <Card className="min-w-96 flex flex-col justify-center items-center">
+        <Card className="min-w-96">
+            {/* <CardHeader shadow={false} floated={false} className="h-[10rem]"> */}
+            <CardHeader shadow={false} floated={false} className="h-[5rem]">
                 <img
                     src={productData.imageURL || "https://images.unsplash.com/photo-1629367494173-c78a56567877?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=927&q=80"}
                     alt="card-image"
@@ -21,7 +25,7 @@ const ProductCard = ({productData}) => {
             <CardBody>
                 <div className="mb-2 flex items-center justify-between">
                     <Typography color="blue-gray" className="font-medium">
-                        {productData.title || "Apple AirPods"}
+                        {clampString(productData.title, 50) || "Apple AirPods"}
                     </Typography>
                     <Typography color="blue-gray" className="font-medium">
                         {("₹" + productData.price) || "$95.00"}

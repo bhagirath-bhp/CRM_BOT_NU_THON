@@ -24,3 +24,12 @@ export const get_prods = (respons) => {
     console.log("found products : =========== ", foundProducts);
     return foundProducts;
 };
+
+
+export const clampString = (string, maxLength) => {
+    if (string.length <= maxLength) {
+        return string;
+    } else {
+        return string.slice(0, maxLength - 3) + '...';
+    }
+}

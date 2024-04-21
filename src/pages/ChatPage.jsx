@@ -5,12 +5,17 @@ import Loader from "../components/Loader";
 import 'regenerator-runtime'
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import { ask } from "../api/chat";
+import { useUser } from "@clerk/clerk-react";
+import { useNavigate } from "react-router";
+import Navbar from "../components/Navbar";
 
 
 
 const ChatPage = () => {
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+    const user = useUser()
     const [chats, setChats] = useState([
         {
             message: "Hello",
@@ -35,6 +40,16 @@ const ChatPage = () => {
         }
     ]);
     
+    useEffect(()=>{
+        if(user.isLoaded && user.isSignedIn){
+            return
+        }
+        else{
+            setTimeout(()=>{
+                navigate("/signin")
+            }, 2000)
+        }
+    }, [user.isLoaded])
     const {
         transcript,
         listening,
@@ -87,6 +102,7 @@ const ChatPage = () => {
 
     return (
         <div>
+            <Navbar/>
             <div className="chat-area w-full">
                 {chats.map((chat, index) => (
                     <ChatItem key={index} chat={chat} type={chat.type} products={chat.products} />
