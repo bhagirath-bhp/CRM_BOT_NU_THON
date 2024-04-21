@@ -5,7 +5,7 @@ import Loader from "../components/Loader";
 // import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 // import 'regenerator-runtime'
 import { ask } from "../api/chat";
-
+import { speechRecognition } from "../utils/utils";
 
 const ChatPage = () => {
     const [message, setMessage] = useState("");
@@ -92,7 +92,8 @@ const ChatPage = () => {
             </div>
             <div className="chat-input py-[1rem] relative">
                 {loading && <div className="absolute top-[-2rem] left-[1rem]"><Loader /></div>}
-                <ChatInput message={message} setMessage={setMessage} onSubmit={onSubmit} loading={loading} />
+                <ChatInput message={message} setMessage={setMessage} onSubmit={onSubmit} loading={loading} speechRecognition={speechRecognition}/>
+                {/* <ChatInput message={message} setMessage={setMessage} onSubmit={onSubmit} loading={loading} micControl={micControl}/> */}
             </div>
         </div>
     );
