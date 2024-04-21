@@ -6,6 +6,8 @@ import 'regenerator-runtime'
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import { ask } from "../api/chat";
 
+
+
 const ChatPage = () => {
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
@@ -32,24 +34,25 @@ const ChatPage = () => {
             type: "recieved"
         }
     ]);
-
+    
     const {
         transcript,
         listening,
         resetTranscript,
         browserSupportsSpeechRecognition,
-      } = useSpeechRecognition();
-      const micControl = () => {
+    } = useSpeechRecognition();
+    const micControl = () => {
         if (listening === true) {
-    
-          SpeechRecognition.stopListening();
+            
+            SpeechRecognition.stopListening();
         } else {
-          SpeechRecognition.startListening();
+            SpeechRecognition.startListening();
         }
-      };
-      useEffect(() => {
+    };
+    useEffect(() => {
         setMessage(transcript);
-      }, [transcript]);
+    }, [transcript]);
+
 
     const onSubmit = async (event) => {
         event.preventDefault();
@@ -67,8 +70,8 @@ const ChatPage = () => {
                 console.log(response)
                 setLoading(false);
                 temp = {
-                    message: response.data.response,
-                    products: [],
+                    message: response.data.message,
+                    products: response.data.products,
                     type: "received"
                 };
             } else {
