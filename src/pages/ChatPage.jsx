@@ -18,27 +18,27 @@ const ChatPage = () => {
     const navigate = useNavigate();
     const user = useUser()
     const [chats, setChats] = useState([
-        {
-            message: "Hello",
-            products: [],
-            type: "sent"
-        },
-        {
-            message: "Hi there",
-            products: [
-                {
-                    title: "Product 1",
-                    description: "Description of Product 1",
-                    imageURL: "https://example.com/product1.jpg"
-                },
-                {
-                    title: "Product 2",
-                    description: "Description of Product 2",
-                    imageURL: "https://example.com/product2.jpg"
-                }
-            ],
-            type: "recieved"
-        }
+        // {
+        //     message: "Hello",
+        //     products: [],
+        //     type: "sent"
+        // },
+        // {
+        //     message: "Hi there",
+        //     products: [
+        //         {
+        //             title: "Product 1",
+        //             description: "Description of Product 1",
+        //             imageURL: "https://example.com/product1.jpg"
+        //         },
+        //         {
+        //             title: "Product 2",
+        //             description: "Description of Product 2",
+        //             imageURL: "https://example.com/product2.jpg"
+        //         }
+        //     ],
+        //     type: "recieved"
+        // }
     ]);
     
     useEffect(()=>{
@@ -77,6 +77,7 @@ const ChatPage = () => {
             type: "sent"
         };
         setChats([...chats, temp]);
+        bottomRef.current.scrollIntoView();
         setLoading(true);
         const response = await ask(message);
         setTimeout(() => {
@@ -96,14 +97,15 @@ const ChatPage = () => {
                 };
             }
             setChats(prevChats => [...prevChats, temp]);
+            bottomRef.current.scrollIntoView();
         }, 100);
     };
-
+    
     return (
         <div className="px-[1rem]">
             <Navbar/>
-            <div className="flex flex-col justify-between overflow-y-scroll noscrollbar h-[90vh] ">
-                <div className="chat-area w-full">
+            <div className="flex flex-col justify-between  h-[90vh] ">
+                <div className="chat-area w-full overflow-y-scroll noscrollbar">
                     {chats.map((chat, index) => (
                         <ChatItem key={index} chat={chat} type={chat.type} products={chat.products} />
                     ))}
