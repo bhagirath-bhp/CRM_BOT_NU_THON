@@ -2,6 +2,7 @@
 // import "slick-carousel/slick/slick-theme.css";
 // import Slider from "react-slick";
 import classNames from "classnames";
+import { Link } from 'react-router-dom';
 import { useState } from "react";
 function LandingPage() {
   const [showMenu, setShowMenu] = useState(false);
@@ -100,12 +101,12 @@ function LandingPage() {
                   commitment to quality remains unwavering. Count on us for
                   effective solutions to elevate your business
                 </span>
-                <a
-                  href="/signup"
+               <Link
+                  to="/signup"
                   className="self-center bg-[#331B3B] rounded-[10px] text-[17px] text-white uppercase font-hindVadodara md:self-start max-w-[207px] py-[22px] w-full flex justify-center items-center font-bold leading-[137.3%] tracking-wide"
                 >
                   Get Started
-                </a>
+                </Link>
               </div>
             </div>
             <div>
