@@ -1,11 +1,13 @@
-import { SignIn } from "@clerk/clerk-react"
+import { SignIn } from "@clerk/clerk-react";
 
 const SignInPage = () => {
   return (
     <div className="w-full flex justify-center">
-        <SignIn forceRedirectUrl="http://localhost:5173/"/>
+      <SignIn 
+        redirectUrl="/"
+      />
     </div>
-  )
+  );
 }
 
-export default SignInPage
+export default SignInPage;
